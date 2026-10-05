@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <defs>
+    <style>
+      .sans { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+      .mono { font-family: 'SF Mono', Menlo, Monaco, monospace; }
+    </style>
+    <symbol id="logo" viewBox="0 0 32 32">
+      <path d="M10 20C8.34315 20 7 18.6569 7 17C7 15.4806 8.1307 14.2254 9.60144 14.0305C9.53483 13.6963 9.5 13.3522 9.5 13C9.5 10.5147 11.5147 8.5 14 8.5C15.9084 8.5 17.5357 9.68913 18.1729 11.3653C18.6791 11.1298 19.2435 11 19.8333 11C21.7663 11 23.3333 12.567 23.3333 14.5C23.3333 14.6644 23.322 14.8262 23.3 14.9845C24.3142 15.429 25 16.4382 25 17.6C25 19.2569 23.6569 20.6 22 20.6H10.5" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14 20L16 17.5L18 20" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 18V23.5" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+
+  <rect width="1080" height="1080" fill="#FFFFFF"/>
+
+  <!-- Brand row -->
+  <rect x="80" y="80" width="48" height="48" rx="12" fill="#111111"/>
+  <use xlink:href="#logo" x="84" y="84" width="40" height="40"/>
+  <text x="144" y="114" class="sans" font-size="30" font-weight="600" fill="#111111">SmallCloud</text>
+
+  <!-- Eyebrow + headline -->
+  <text x="80" y="226" class="mono" font-size="22" fill="#6B7280" letter-spacing="3">FOR FREELANCERS &amp; AGENCIES</text>
+  <text x="80" y="316" class="sans" font-size="76" font-weight="700" fill="#111111" letter-spacing="-2">Hand your client a</text>
+  <text x="80" y="404" class="sans" font-size="76" font-weight="700" fill="#111111" letter-spacing="-2">live app on their</text>
+  <text x="80" y="492" class="sans" font-size="76" font-weight="700" fill="#111111" letter-spacing="-2">own domain.</text>
+
+  <!-- Domain card -->
+  <rect x="80" y="562" width="920" height="306" rx="20" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="120" y="618" class="mono" font-size="18" fill="#6B7280" letter-spacing="2">DEPLOYMENT URL</text>
+  <text x="120" y="664" class="mono" font-size="32" fill="#111111">https://store.smallcloud.si</text>
+  <line x1="120" y1="698" x2="960" y2="698" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="120" y="742" class="mono" font-size="18" fill="#6B7280" letter-spacing="2">CUSTOM DOMAIN</text>
+  <text x="120" y="788" class="mono" font-size="32" font-weight="600" fill="#0066FF">app.yourclient.com</text>
+
+  <rect x="120" y="810" width="196" height="40" rx="20" fill="#ECFDF5" stroke="#A7F3D0"/>
+  <text x="218" y="837" class="sans" font-size="20" font-weight="600" fill="#047857" text-anchor="middle">✓ Connected</text>
+  <rect x="330" y="810" width="226" height="40" rx="20" fill="#ECFDF5" stroke="#A7F3D0"/>
+  <text x="443" y="837" class="sans" font-size="20" font-weight="600" fill="#047857" text-anchor="middle">✓ HTTPS enabled</text>
+
+  <!-- CTA row -->
+  <rect x="80" y="930" width="400" height="76" rx="14" fill="#111111"/>
+  <text x="280" y="978" class="sans" font-size="26" font-weight="600" fill="#FFFFFF" text-anchor="middle">Start free on SmallCloud</text>
+  <text x="1000" y="978" class="sans" font-size="24" fill="#6B7280" text-anchor="end">Point your DNS. We handle SSL.</text>
+</svg>

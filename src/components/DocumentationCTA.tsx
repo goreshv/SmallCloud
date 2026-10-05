@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, BookOpen, Check } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, Terminal } from 'lucide-react';
+import { Link } from '../router';
 
 interface DocumentationCTAProps {
   onOpenDeployModal: () => void;
@@ -24,7 +25,7 @@ export const DocumentationCTA: React.FC<DocumentationCTAProps> = ({
           {/* Subtle Grid Accent */}
           <div className="absolute inset-0 bg-grid-pattern-dark opacity-15 pointer-events-none" />
 
-          <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-8">
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="max-w-xl">
               <span className="text-xs font-mono font-medium text-brand-400 bg-brand-950/80 border border-brand-800/80 px-2.5 py-1 rounded inline-block mb-3">
                 Zero Setup Cost
@@ -49,26 +50,32 @@ export const DocumentationCTA: React.FC<DocumentationCTAProps> = ({
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+            <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-stretch sm:items-center gap-3 shrink-0">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={onOpenDeployModal}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white text-gray-950 hover:bg-gray-100 font-medium text-sm transition-all shadow-sm cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white text-gray-950 hover:bg-gray-100 font-medium text-sm transition-all shadow-sm cursor-pointer"
               >
                 <span>Deploy your first app</span>
                 <ArrowRight className="w-4 h-4" />
               </motion.button>
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={onOpenDocsModal}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gray-900 dark:bg-[#141414] border border-gray-800 dark:border-[#262626] text-gray-300 hover:text-white hover:bg-gray-800 dark:hover:bg-[#1F1F1F] font-medium text-sm transition-colors cursor-pointer"
+              <Link
+                to="/docs"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gray-900 dark:bg-[#141414] border border-gray-800 dark:border-[#262626] text-gray-300 hover:text-white hover:bg-gray-800 dark:hover:bg-[#1F1F1F] font-medium text-sm transition-colors cursor-pointer"
               >
                 <BookOpen className="w-4 h-4 text-gray-400" />
-                <span>Read documentation</span>
-              </motion.button>
+                <span>User Guide</span>
+              </Link>
+
+              <Link
+                to="/cli"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gray-900/60 dark:bg-[#101010] border border-gray-800 dark:border-[#262626] text-gray-300 hover:text-white hover:bg-gray-800 dark:hover:bg-[#1F1F1F] font-medium text-xs font-mono transition-colors cursor-pointer"
+              >
+                <Terminal className="w-3.5 h-3.5 text-brand-400" />
+                <span>smallcloud CLI</span>
+              </Link>
             </div>
           </div>
 

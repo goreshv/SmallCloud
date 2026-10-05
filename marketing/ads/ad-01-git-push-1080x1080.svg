@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <defs>
+    <style>
+      .sans { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+      .mono { font-family: 'SF Mono', Menlo, Monaco, monospace; }
+    </style>
+    <symbol id="logo" viewBox="0 0 32 32">
+      <path d="M10 20C8.34315 20 7 18.6569 7 17C7 15.4806 8.1307 14.2254 9.60144 14.0305C9.53483 13.6963 9.5 13.3522 9.5 13C9.5 10.5147 11.5147 8.5 14 8.5C15.9084 8.5 17.5357 9.68913 18.1729 11.3653C18.6791 11.1298 19.2435 11 19.8333 11C21.7663 11 23.3333 12.567 23.3333 14.5C23.3333 14.6644 23.322 14.8262 23.3 14.9845C24.3142 15.429 25 16.4382 25 17.6C25 19.2569 23.6569 20.6 22 20.6H10.5" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14 20L16 17.5L18 20" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 18V23.5" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+
+  <rect width="1080" height="1080" fill="#000000"/>
+
+  <!-- Brand row -->
+  <rect x="80" y="80" width="48" height="48" rx="12" fill="#111111" stroke="#262626"/>
+  <use xlink:href="#logo" x="84" y="84" width="40" height="40"/>
+  <text x="144" y="114" class="sans" font-size="30" font-weight="600" fill="#EDEDED">SmallCloud</text>
+  <text x="1000" y="114" class="mono" font-size="22" fill="#5C5C5C" text-anchor="end">smallcloud.si</text>
+
+  <!-- Headline -->
+  <text x="80" y="252" class="sans" font-size="84" font-weight="700" fill="#FFFFFF" letter-spacing="-2">From GitHub</text>
+  <text x="80" y="346" class="sans" font-size="84" font-weight="700" fill="#FFFFFF" letter-spacing="-2">to production.</text>
+  <text x="80" y="410" class="sans" font-size="32" fill="#8A8A8A">No servers, Docker, Nginx or SSL setup.</text>
+
+  <!-- Terminal card -->
+  <rect x="80" y="470" width="920" height="400" rx="20" fill="#0A0A0A" stroke="#1F1F1F" stroke-width="2"/>
+  <circle cx="114" cy="498" r="7" fill="#2A2A2A"/>
+  <circle cx="138" cy="498" r="7" fill="#2A2A2A"/>
+  <circle cx="162" cy="498" r="7" fill="#2A2A2A"/>
+  <text x="540" y="505" class="mono" font-size="20" fill="#5C5C5C" text-anchor="middle">acme/store — main</text>
+  <line x1="80" y1="526" x2="1000" y2="526" stroke="#1F1F1F" stroke-width="2"/>
+
+  <text x="120" y="582" class="mono" font-size="27"><tspan fill="#5C5C5C">$ </tspan><tspan fill="#EDEDED">git push origin main</tspan></text>
+  <text x="120" y="630" class="mono" font-size="25"><tspan fill="#3691FB">→ </tspan><tspan fill="#8A8A8A">SmallCloud: build started</tspan></text>
+  <text x="120" y="674" class="mono" font-size="25"><tspan fill="#10B981">✓ </tspan><tspan fill="#8A8A8A">Next.js detected</tspan></text>
+  <text x="120" y="718" class="mono" font-size="25"><tspan fill="#10B981">✓ </tspan><tspan fill="#8A8A8A">Build completed</tspan></text>
+  <text x="120" y="762" class="mono" font-size="25"><tspan fill="#10B981">✓ </tspan><tspan fill="#8A8A8A">HTTPS certificate issued</tspan></text>
+
+  <rect x="100" y="792" width="880" height="58" rx="10" fill="#06140D" stroke="#0F3D27" stroke-width="2"/>
+  <text x="124" y="830" class="mono" font-size="26"><tspan fill="#10B981" font-weight="600">● Live  </tspan><tspan fill="#3691FB" font-weight="600">https://store.smallcloud.si</tspan></text>
+
+  <!-- CTA row -->
+  <rect x="80" y="930" width="420" height="76" rx="14" fill="#0066FF"/>
+  <text x="290" y="978" class="sans" font-size="28" font-weight="600" fill="#FFFFFF" text-anchor="middle">Deploy your first app →</text>
+  <text x="1000" y="978" class="sans" font-size="24" fill="#8A8A8A" text-anchor="end">Free tier · Nothing to configure</text>
+</svg>

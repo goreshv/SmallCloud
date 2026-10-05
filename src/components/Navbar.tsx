@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import { useRouter } from '../router';
 
 interface NavbarProps {
   onOpenDeployModal: () => void;
@@ -12,6 +13,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDeployModal, onOpenDocsMod
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { path, navigate } = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,22 +28,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDeployModal, onOpenDocsMod
     { name: 'How it works', href: '#how-it-works' },
     { name: 'Features', href: '#features' },
     { name: 'Pricing', href: '#pricing' },
-    { name: 'Docs', action: onOpenDocsModal },
+    { name: 'User Guide', href: '/docs' },
+    { name: 'CLI', href: '/cli', badge: 'New' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent, link: typeof navLinks[0]) => {
-    if (link.action) {
-      e.preventDefault();
-      link.action();
-      setMobileMenuOpen(false);
-    } else if (link.href?.startsWith('#')) {
-      e.preventDefault();
-      const el = document.querySelector(link.href);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+    e.preventDefault();
+    if (link.href.startsWith('#')) {
+      if (path !== '/') {
+        navigate('/' + link.href);
+      } else {
+        const el = document.querySelector(link.href);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
       }
-      setMobileMenuOpen(false);
+    } else if (link.href) {
+      navigate(link.href);
     }
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -56,7 +61,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDeployModal, onOpenDocsMod
         <div className="flex items-center justify-between">
           {/* Logo & Brand */}
           <a
-            href="#"
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/');
+            }}
             className="flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-md p-1"
           >
             <motion.div
@@ -87,17 +96,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDeployModal, onOpenDocsMod
           </a>
 
           {/* Center Navigation Links - Desktop */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href || '#'}
-                onClick={(e) => handleLinkClick(e, link)}
-                className="px-3.5 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-950 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-[#161616] rounded-md transition-colors duration-150 cursor-pointer"
-              >
-                {link.name}
-              </a>
-            ))}
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-1.5">
+            {navLinks.map((link) => {
+              const isActive = path === link.href;
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => handleLinkClick(e, link)}
+                  className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors duration-150 cursor-pointer flex items-center gap-1.5 ${
+                    isActive
+                      ? 'text-gray-950 dark:text-white bg-gray-100 dark:bg-[#161616] font-semibold'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-950 dark:hover:text-white hover:bg-gray-100/70 dark:hover:bg-[#161616]'
+                  }`}
+                >
+                  <span>{link.name}</span>
+                  {link.badge && (
+                    <span className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
+                      {link.badge}
+                    </span>
+                  )}
+                </a>
+              );
+            })}
           </nav>
 
           {/* Right Action Buttons & Theme Switcher - Desktop */}

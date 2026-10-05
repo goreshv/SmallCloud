@@ -1,5 +1,6 @@
 import React from 'react';
 import { Github, Twitter, Linkedin } from 'lucide-react';
+import { Link } from '../router';
 
 interface FooterProps {
   onOpenDocsModal: () => void;
@@ -14,7 +15,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDocsModal, onOpenDeployMod
           
           {/* Brand Info */}
           <div className="col-span-2">
-            <div className="flex items-center gap-2 mb-3">
+            <Link to="/" className="inline-flex items-center gap-2 mb-3 cursor-pointer">
               <div className="w-7 h-7 rounded-lg bg-surface-dark dark:bg-[#0E0E0E] flex items-center justify-center text-white border border-gray-800 dark:border-[#262626]">
                 <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -34,7 +35,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDocsModal, onOpenDeployMod
               <span className="text-[11px] font-mono px-1.5 py-0.2 rounded bg-gray-100 dark:bg-[#121212] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#1F1F1F]">
                 .si
               </span>
-            </div>
+            </Link>
 
             <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm max-w-sm mb-4 leading-relaxed">
               Simple application deployment for developers, startups, and agencies. From GitHub to production without managing servers.
@@ -112,32 +113,42 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDocsModal, onOpenDeployMod
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button
-                  onClick={onOpenDocsModal}
-                  className="hover:text-gray-950 dark:hover:text-white transition-colors text-left cursor-pointer"
+                <Link
+                  to="/docs"
+                  className="hover:text-gray-950 dark:text-gray-300 dark:hover:text-white transition-colors flex items-center gap-1.5"
                 >
-                  Documentation
-                </button>
+                  <span>User Guide</span>
+                  <span className="text-[10px] font-mono px-1 rounded bg-gray-100 dark:bg-[#1E1E1E] text-gray-500">/docs</span>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={onOpenDocsModal}
-                  className="hover:text-gray-950 dark:hover:text-white transition-colors text-left cursor-pointer"
+                <Link
+                  to="/cli"
+                  className="hover:text-gray-950 dark:text-gray-300 dark:hover:text-white transition-colors flex items-center gap-1.5"
                 >
-                  Quickstart Guide
-                </button>
+                  <span>Terminal CLI</span>
+                  <span className="text-[10px] font-mono px-1 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400">/cli</span>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={onOpenDeployModal}
-                  className="hover:text-gray-950 dark:hover:text-white transition-colors text-left cursor-pointer"
+                <Link
+                  to="/docs#domains"
+                  className="hover:text-gray-950 dark:hover:text-white transition-colors"
                 >
-                  CLI & GitHub Integration
-                </button>
+                  Domains & Free SSL
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/docs#env"
+                  className="hover:text-gray-950 dark:hover:text-white transition-colors"
+                >
+                  Encrypted Secrets
+                </Link>
               </li>
               <li>
                 <a href="#dashboard-showcase" className="hover:text-gray-950 dark:hover:text-white transition-colors">
-                  Datacenter Status (ap-south-1)
+                  Datacenter (ap-south-1)
                 </a>
               </li>
             </ul>

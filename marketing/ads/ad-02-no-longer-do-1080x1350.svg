@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <defs>
+    <style>
+      .sans { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+      .mono { font-family: 'SF Mono', Menlo, Monaco, monospace; }
+      .gone { text-decoration: line-through; }
+    </style>
+    <symbol id="logo" viewBox="0 0 32 32">
+      <path d="M10 20C8.34315 20 7 18.6569 7 17C7 15.4806 8.1307 14.2254 9.60144 14.0305C9.53483 13.6963 9.5 13.3522 9.5 13C9.5 10.5147 11.5147 8.5 14 8.5C15.9084 8.5 17.5357 9.68913 18.1729 11.3653C18.6791 11.1298 19.2435 11 19.8333 11C21.7663 11 23.3333 12.567 23.3333 14.5C23.3333 14.6644 23.322 14.8262 23.3 14.9845C24.3142 15.429 25 16.4382 25 17.6C25 19.2569 23.6569 20.6 22 20.6H10.5" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14 20L16 17.5L18 20" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 18V23.5" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+
+  <rect width="1080" height="1350" fill="#000000"/>
+
+  <!-- Brand row -->
+  <rect x="80" y="80" width="48" height="48" rx="12" fill="#111111" stroke="#262626"/>
+  <use xlink:href="#logo" x="84" y="84" width="40" height="40"/>
+  <text x="144" y="114" class="sans" font-size="30" font-weight="600" fill="#EDEDED">SmallCloud</text>
+
+  <!-- Eyebrow + headline -->
+  <text x="80" y="232" class="mono" font-size="22" fill="#5C5C5C" letter-spacing="3">DEPLOYING ON SMALLCLOUD</text>
+  <text x="80" y="322" class="sans" font-size="80" font-weight="700" fill="#FFFFFF" letter-spacing="-2">Things you no</text>
+  <text x="80" y="412" class="sans" font-size="80" font-weight="700" fill="#FFFFFF" letter-spacing="-2">longer do:</text>
+
+  <!-- Crossed-out list -->
+  <g class="sans" font-size="44">
+    <text x="80" y="532" fill="#4A4A4A">✕</text>
+    <text x="140" y="532" fill="#6B6B6B" class="gone">Rent and patch a VPS</text>
+    <text x="80" y="624" fill="#4A4A4A">✕</text>
+    <text x="140" y="624" fill="#6B6B6B" class="gone">Write a Dockerfile</text>
+    <text x="80" y="716" fill="#4A4A4A">✕</text>
+    <text x="140" y="716" fill="#6B6B6B" class="gone">Configure Nginx</text>
+    <text x="80" y="808" fill="#4A4A4A">✕</text>
+    <text x="140" y="808" fill="#6B6B6B" class="gone">Renew SSL certificates</text>
+    <text x="80" y="900" fill="#4A4A4A">✕</text>
+    <text x="140" y="900" fill="#6B6B6B" class="gone">Wire up a deploy pipeline</text>
+  </g>
+
+  <line x1="80" y1="962" x2="1000" y2="962" stroke="#1F1F1F" stroke-width="2"/>
+
+  <!-- What you still do -->
+  <text x="80" y="1032" class="sans" font-size="36" fill="#8A8A8A">Things you still do:</text>
+  <rect x="80" y="1062" width="380" height="84" rx="14" fill="#0A0A0A" stroke="#1F1F1F" stroke-width="2"/>
+  <text x="112" y="1117" class="mono" font-size="40"><tspan fill="#5C5C5C">$ </tspan><tspan fill="#FFFFFF">git push</tspan></text>
+  <text x="496" y="1117" class="sans" font-size="36" font-weight="600" fill="#3691FB">→ live HTTPS URL</text>
+
+  <!-- Footer CTA -->
+  <text x="80" y="1252" class="mono" font-size="26" fill="#EDEDED">smallcloud.si</text>
+  <rect x="740" y="1206" width="260" height="72" rx="14" fill="#0066FF"/>
+  <text x="870" y="1252" class="sans" font-size="28" font-weight="600" fill="#FFFFFF" text-anchor="middle">Start free →</text>
+</svg>

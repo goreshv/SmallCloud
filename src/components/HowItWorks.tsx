@@ -4,9 +4,13 @@ import {
   FolderGit2,
   Globe2,
   Terminal,
-  Zap
+  Zap,
+  KeyRound,
+  ShieldCheck,
+  ArrowRight,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from '../router';
 
 export const HowItWorks: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -14,37 +18,68 @@ export const HowItWorks: React.FC = () => {
   const steps = [
     {
       num: '01',
-      title: 'Connect GitHub',
-      subtitle: 'Connect your GitHub account and give SmallCloud access to the repositories you want to deploy.',
+      title: 'Sign In with GitHub',
+      subtitle: 'Click "Continue with GitHub" on /login with OAuth 2.0. Zero secret tokens required.',
       icon: Github,
-      detail: 'OAuth or GitHub App installation with granular repository permissions. Select all repositories or pick specific ones.',
-      snippet: `// Install SmallCloud GitHub App
-$ gh app install smallcloud-deployer --repo acme/store
-✓ Authorization granted for acme/* repositories`,
+      detail: 'OAuth 2.0 securely queries GitHub API to list your repositories. Testing locally? Click "Demo GitHub Account" anytime.',
+      snippet: `// Step 1: Sign In with GitHub (/login)
+✓ OAuth 2.0 handshake verified (Zero secret tokens)
+✓ GitHub API queried: Repositories listed
+(Local testing note: Click "Demo GitHub Account" to simulate instantly)`,
     },
     {
       num: '02',
-      title: 'Choose your repository',
-      subtitle: 'Select a repository and branch. SmallCloud detects the application and prepares the deployment automatically.',
+      title: 'Deploying Your First App',
+      subtitle: 'Deploy via Web Dashboard (/applications/new) or Terminal CLI command.',
       icon: FolderGit2,
-      detail: 'Zero configuration required. SmallCloud reads your package.json, requirements.txt, or go.mod to detect your runtime, build commands, and port bindings.',
-      snippet: `// Runtime auto-detection in progress:
-✓ Repository: github.com/acme/store
-✓ Branch: main (commit 8f1e39a)
-✓ Runtime: Node.js 20.x
-✓ Framework: Next.js (App Router detected)`,
+      detail: 'Pick your repo or paste Custom Git URL (e.g. tiangolo/fastapi). Auto-detects Next.js, FastAPI, Node.js, Python, or Dockerfiles. Instant routing to http://localhost:8000/live/<app-slug>.',
+      snippet: `// Via Web Dashboard (/applications/new) or Terminal CLI:
+$ ./bin/smallcloud deploy --name my-app --repo https://github.com/tiangolo/fastapi --port 8000
+✓ Runtime detected: FastAPI
+✓ Container created with strict CPU/RAM bounds
+✓ Instant Routing: http://localhost:8000/live/my-app`,
     },
     {
       num: '03',
-      title: 'Go live',
-      subtitle: 'SmallCloud builds and deploys your application and gives you a secure public URL.',
+      title: 'Custom Domains & TLS',
+      subtitle: 'Automatic free Let\'s Encrypt SSL with 2048-bit RSA keys and TLS 1.3 reverse proxy routing.',
       icon: Globe2,
-      detail: 'Build executes in an isolated environment. An auto-provisioned Let\'s Encrypt certificate is mapped to your public URL or custom domain in seconds.',
-      snippet: `// Build & Edge routing complete
-✓ Build finished in 14.8 seconds
-✓ Health check: GET / 200 OK (18ms)
-✓ Live: https://store.smallcloud.si
-✓ Ready to accept HTTPS traffic worldwide`,
+      detail: 'Map CNAME (local.smallcloud) or A Record (127.0.0.1 / Public IP). Includes 60-day auto-renewal and 1-click "Renew SSL". CLI: ./bin/smallcloud domains add my-app api.mycompany.dev',
+      snippet: `// Via Terminal CLI:
+$ ./bin/smallcloud domains add my-app api.mycompany.dev
+✓ Generated 2048-bit RSA keypair
+✓ Signed X.509 certificate with Let's Encrypt Authority
+✓ TLS 1.3 reverse proxy activated (60-day background renewal)
+✓ Live at https://api.mycompany.dev`,
+    },
+    {
+      num: '04',
+      title: 'Secrets & Environment',
+      subtitle: 'Encrypted at rest in SQLite with masked UI values (••••••••••••).',
+      icon: KeyRound,
+      detail: 'Inject runtime configuration securely. Manage via Dashboard or CLI: ./bin/smallcloud env set my-app STRIPE_API_KEY=sk_live_99214 DB_PORT=5432.',
+      snippet: `// Step 4: Managing Secrets & Environment Variables
+$ ./bin/smallcloud env set my-app STRIPE_API_KEY=sk_live_99214 DB_PORT=5432
+✓ Encrypted with AES-256 at rest in SQLite
+✓ Masked in Web Dashboard (••••••••••••)
+$ ./bin/smallcloud env list my-app
+[KEY]                 [VALUE]         [STATUS]
+STRIPE_API_KEY        ••••••••••••    Encrypted
+DB_PORT               5432            Encrypted`,
+    },
+    {
+      num: '05',
+      title: 'SmallCloud Terminal CLI',
+      subtitle: 'Complete platform control from bash/zsh with zero web dashboard dependency.',
+      icon: Terminal,
+      detail: 'Global alias: sudo ln -sf "$(pwd)/bin/smallcloud" /usr/local/bin/smallcloud. Login, inspect containers, stream logs, and bind domains.',
+      snippet: `// Step 5: SmallCloud Terminal CLI
+$ sudo ln -sf "$(pwd)/bin/smallcloud" /usr/local/bin/smallcloud
+$ smallcloud login          # Authenticate session
+$ smallcloud whoami         # View current user
+$ smallcloud apps           # List apps, statuses, and ports
+$ smallcloud logs my-app    # Stream live container logs
+$ smallcloud domains list   # View custom domains & TLS status`,
     },
   ];
 
@@ -168,9 +203,9 @@ $ gh app install smallcloud-deployer --repo acme/store
           </div>
         </motion.div>
 
-        {/* 3 Step Cards Grid */}
+        {/* 3 Step Cards Grid (Core Deploy Flow) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
-          {steps.map((step, idx) => {
+          {steps.slice(0, 3).map((step, idx) => {
             const Icon = step.icon;
             const isSelected = activeStep === idx;
             return (
@@ -217,14 +252,31 @@ $ gh app install smallcloud-deployer --repo acme/store
           })}
         </div>
 
-        {/* Interactive Step Code Preview with AnimatePresence */}
+        {/* Step Selector Tabs (All 5 Documented Steps) */}
         <div className="mt-8 max-w-4xl mx-auto">
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
+            {steps.map((s, idx) => (
+              <button
+                key={s.num}
+                onClick={() => setActiveStep(idx)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                  activeStep === idx
+                    ? 'bg-gray-900 dark:bg-white text-white dark:text-black font-semibold shadow-sm'
+                    : 'bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-[#1F1F1F] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                }`}
+              >
+                Step {s.num}: {s.title}
+              </button>
+            ))}
+          </div>
+
+          {/* Interactive Step Code Preview with AnimatePresence */}
           <div className="bg-surface-dark dark:bg-[#050505] border border-gray-800 dark:border-[#1F1F1F] rounded-xl overflow-hidden shadow-dark-card">
             <div className="px-4 py-2.5 bg-surface-darker dark:bg-[#020202] border-b border-gray-800 dark:border-[#1A1A1A] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Terminal className="w-4 h-4 text-gray-400" />
                 <span className="text-xs font-mono text-gray-300">
-                  Step {steps[activeStep].num} Simulation Output
+                  Step {steps[activeStep].num}: {steps[activeStep].title} Simulation Output
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -246,6 +298,94 @@ $ gh app install smallcloud-deployer --repo acme/store
                 <code>{steps[activeStep].snippet}</code>
               </motion.pre>
             </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Post-Deployment & Operations: Step 4 (Secrets) & Step 5 (CLI) Cards */}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {/* Step 4 Card */}
+          <div
+            onClick={() => setActiveStep(3)}
+            className="p-6 rounded-xl border border-gray-200 dark:border-[#1F1F1F] bg-white dark:bg-[#0A0A0A] hover:border-gray-300 dark:hover:border-[#333333] transition-all cursor-pointer text-left"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="font-mono text-xs font-bold text-gray-400 dark:text-[#737373] bg-gray-100 dark:bg-[#141414] px-2.5 py-1 rounded">
+                Step 04
+              </span>
+              <div className="p-2 rounded-lg bg-gray-50 dark:bg-[#161616] text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-[#262626]">
+                <KeyRound className="w-4 h-4" />
+              </div>
+            </div>
+            <h4 className="text-base font-bold text-gray-900 dark:text-white font-sans">
+              Managing Secrets & Environment Variables
+            </h4>
+            <p className="mt-1.5 text-xs text-gray-600 dark:text-[#A1A1A1] leading-relaxed">
+              Encrypted at rest with SQLite AES-256. Values are masked with bullets (<code className="font-mono text-gray-800 dark:text-gray-200">••••••••••••</code>) in the UI. Configure via Web Dashboard or terminal CLI.
+            </p>
+            <div className="mt-4 pt-3 border-t border-gray-100 dark:border-[#1A1A1A] flex items-center justify-between">
+              <span className="text-[11px] font-mono text-gray-500 dark:text-[#888888]">
+                ./bin/smallcloud env set
+              </span>
+              <Link to="/docs#env" className="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
+                Docs guide <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Step 5 Card */}
+          <div
+            onClick={() => setActiveStep(4)}
+            className="p-6 rounded-xl border border-gray-200 dark:border-[#1F1F1F] bg-white dark:bg-[#0A0A0A] hover:border-gray-300 dark:hover:border-[#333333] transition-all cursor-pointer text-left"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="font-mono text-xs font-bold text-gray-400 dark:text-[#737373] bg-gray-100 dark:bg-[#141414] px-2.5 py-1 rounded">
+                Step 05
+              </span>
+              <div className="p-2 rounded-lg bg-gray-50 dark:bg-[#161616] text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-[#262626]">
+                <Terminal className="w-4 h-4" />
+              </div>
+            </div>
+            <h4 className="text-base font-bold text-gray-900 dark:text-white font-sans">
+              Using the smallcloud Terminal CLI
+            </h4>
+            <p className="mt-1.5 text-xs text-gray-600 dark:text-[#A1A1A1] leading-relaxed">
+              Global alias setup with <code className="font-mono text-gray-800 dark:text-gray-200">sudo ln -sf</code>. Run login, inspect apps, stream live container logs, and bind domains right from zsh/bash.
+            </p>
+            <div className="mt-4 pt-3 border-t border-gray-100 dark:border-[#1A1A1A] flex items-center justify-between">
+              <span className="text-[11px] font-mono text-gray-500 dark:text-[#888888]">
+                Dedicated CLI page
+              </span>
+              <Link to="/cli" className="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
+                Explore CLI <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* User Guide & CLI Quick Navigation Callout */}
+        <div className="mt-8 max-w-4xl mx-auto p-4 rounded-xl border border-dashed border-gray-300 dark:border-[#2B2B2B] bg-gray-50/70 dark:bg-[#060606] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-left">
+            <span className="text-xs font-mono font-semibold text-gray-900 dark:text-white flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              Complete Documentation Available
+            </span>
+            <p className="text-xs text-gray-500 dark:text-[#888888] mt-0.5">
+              Follow our 5-step interactive guide or inspect all CLI flags and commands.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Link
+              to="/docs"
+              className="px-3.5 py-1.5 rounded-lg border border-gray-200 dark:border-[#222222] bg-white dark:bg-[#121212] text-xs font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1E1E1E] transition-colors"
+            >
+              User Guide (/docs)
+            </Link>
+            <Link
+              to="/cli"
+              className="px-3.5 py-1.5 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-black text-xs font-medium hover:bg-black dark:hover:bg-gray-100 transition-colors shadow-sm"
+            >
+              CLI Guide (/cli)
+            </Link>
           </div>
         </div>
 

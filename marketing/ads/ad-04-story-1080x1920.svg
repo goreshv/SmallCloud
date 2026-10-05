@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <style>
+      .sans { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+      .mono { font-family: 'SF Mono', Menlo, Monaco, monospace; }
+    </style>
+    <symbol id="logo" viewBox="0 0 32 32">
+      <path d="M10 20C8.34315 20 7 18.6569 7 17C7 15.4806 8.1307 14.2254 9.60144 14.0305C9.53483 13.6963 9.5 13.3522 9.5 13C9.5 10.5147 11.5147 8.5 14 8.5C15.9084 8.5 17.5357 9.68913 18.1729 11.3653C18.6791 11.1298 19.2435 11 19.8333 11C21.7663 11 23.3333 12.567 23.3333 14.5C23.3333 14.6644 23.322 14.8262 23.3 14.9845C24.3142 15.429 25 16.4382 25 17.6C25 19.2569 23.6569 20.6 22 20.6H10.5" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14 20L16 17.5L18 20" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 18V23.5" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+
+  <rect width="1080" height="1920" fill="#000000"/>
+
+  <!-- Brand row (below top safe zone) -->
+  <rect x="80" y="252" width="64" height="64" rx="16" fill="#111111" stroke="#262626"/>
+  <use xlink:href="#logo" x="86" y="258" width="52" height="52"/>
+  <text x="164" y="298" class="sans" font-size="38" font-weight="600" fill="#EDEDED">SmallCloud</text>
+
+  <text x="80" y="440" class="sans" font-size="92" font-weight="700" fill="#FFFFFF" letter-spacing="-2">Deploy in</text>
+  <text x="80" y="536" class="sans" font-size="92" font-weight="700" fill="#FFFFFF" letter-spacing="-2">three steps.</text>
+
+  <!-- Step 1 -->
+  <rect x="80" y="600" width="920" height="230" rx="24" fill="#0A0A0A" stroke="#1F1F1F" stroke-width="2"/>
+  <text x="130" y="662" class="mono" font-size="28" fill="#3691FB">01</text>
+  <text x="130" y="728" class="sans" font-size="52" font-weight="600" fill="#FFFFFF">Connect GitHub</text>
+  <text x="130" y="782" class="sans" font-size="30" fill="#8A8A8A">Authorise the repos you want to deploy.</text>
+
+  <!-- Step 2 -->
+  <rect x="80" y="860" width="920" height="230" rx="24" fill="#0A0A0A" stroke="#1F1F1F" stroke-width="2"/>
+  <text x="130" y="922" class="mono" font-size="28" fill="#3691FB">02</text>
+  <text x="130" y="988" class="sans" font-size="52" font-weight="600" fill="#FFFFFF">Choose a repository</text>
+  <text x="130" y="1042" class="sans" font-size="30" fill="#8A8A8A">We detect the framework and prepare the build.</text>
+
+  <!-- Step 3 -->
+  <rect x="80" y="1120" width="920" height="230" rx="24" fill="#0A0A0A" stroke="#0F3D27" stroke-width="2"/>
+  <text x="130" y="1182" class="mono" font-size="28" fill="#10B981">03</text>
+  <text x="130" y="1248" class="sans" font-size="52" font-weight="600" fill="#FFFFFF">Go live</text>
+  <text x="130" y="1302" class="mono" font-size="30"><tspan fill="#10B981" font-weight="600">● </tspan><tspan fill="#3691FB" font-weight="600">https://my-app.smallcloud.si</tspan></text>
+
+  <!-- CTA (above bottom safe zone) -->
+  <rect x="80" y="1400" width="920" height="110" rx="22" fill="#0066FF"/>
+  <text x="540" y="1470" class="sans" font-size="40" font-weight="600" fill="#FFFFFF" text-anchor="middle">Deploy your first app — free</text>
+  <text x="540" y="1566" class="mono" font-size="30" fill="#5C5C5C" text-anchor="middle">smallcloud.si</text>
+</svg>

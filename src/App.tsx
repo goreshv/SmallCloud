@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
+import { RouterProvider, useRouter } from './router';
+import { GuidePage } from './pages/GuidePage';
+import { CliPage } from './pages/CliPage';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { HowItWorks } from './components/HowItWorks';
@@ -20,6 +23,7 @@ import { DocsModal } from './components/DocsModal';
 const AppContent: React.FC = () => {
   const [deployModalOpen, setDeployModalOpen] = useState(false);
   const [docsModalOpen, setDocsModalOpen] = useState(false);
+  const { path } = useRouter();
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#000000] text-[#111111] dark:text-[#F3F4F6] flex flex-col font-sans selection:bg-brand-500 selection:text-white transition-colors duration-200">
@@ -29,16 +33,22 @@ const AppContent: React.FC = () => {
         onOpenDocsModal={() => setDocsModalOpen(true)}
       />
 
-      {/* Main Content Area */}
+      {/* Main Content Area: Routes /docs, /cli, and / (Landing) */}
       <main className="flex-1">
-        {/* 1. Hero Section with Realistic Product Preview */}
-        <Hero
-          onOpenDeployModal={() => setDeployModalOpen(true)}
-          onOpenDocsModal={() => setDocsModalOpen(true)}
-        />
+        {path === '/docs' || path === '/guide' ? (
+          <GuidePage />
+        ) : path === '/cli' ? (
+          <CliPage />
+        ) : (
+          <>
+            {/* 1. Hero Section with Realistic Product Preview */}
+            <Hero
+              onOpenDeployModal={() => setDeployModalOpen(true)}
+              onOpenDocsModal={() => setDocsModalOpen(true)}
+            />
 
-        {/* 2. How it works (Three Steps & Pipeline) */}
-        <HowItWorks />
+            {/* 2. How it works (Five Steps & Pipeline) */}
+            <HowItWorks />
 
         {/* 3. Product Features (9 Grid) */}
         <Features />
@@ -72,6 +82,8 @@ const AppContent: React.FC = () => {
           onOpenDeployModal={() => setDeployModalOpen(true)}
           onOpenDocsModal={() => setDocsModalOpen(true)}
         />
+          </>
+        )}
       </main>
 
       {/* Footer */}
@@ -102,7 +114,9 @@ const AppContent: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <AppContent />
+      <RouterProvider>
+        <AppContent />
+      </RouterProvider>
     </ThemeProvider>
   );
 };
