@@ -2,6 +2,14 @@ import React from 'react';
 import { Github, Twitter, Linkedin } from 'lucide-react';
 import { Link } from '../router';
 
+// Company social links - attach official company page URLs here when available.
+// Leave blank to disable external links and prevent redirects to personal browser sessions.
+export const COMPANY_SOCIALS = {
+  github: '', // e.g. 'https://github.com/smallcloud-org'
+  twitter: '', // e.g. 'https://x.com/smallcloud'
+  linkedin: '', // e.g. 'https://linkedin.com/company/smallcloud'
+};
+
 interface FooterProps {
   onOpenDocsModal: () => void;
   onOpenDeployModal: () => void;
@@ -41,34 +49,73 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDocsModal, onOpenDeployMod
               Simple application deployment for developers, startups, and agencies. From GitHub to production without managing servers.
             </p>
 
+            {/* Social media links placeholder (disconnected until official company page URLs are set) */}
             <div className="flex items-center gap-3 text-gray-400 dark:text-gray-500">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noreferrer"
-                className="p-2 rounded-lg hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#121212] transition-colors"
-                aria-label="GitHub"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-              <a
-                href="https://x.com"
-                target="_blank"
-                rel="noreferrer"
-                className="p-2 rounded-lg hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#121212] transition-colors"
-                aria-label="X (formerly Twitter)"
-              >
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                className="p-2 rounded-lg hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#121212] transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
+              {COMPANY_SOCIALS.github ? (
+                <a
+                  href={COMPANY_SOCIALS.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-2 rounded-lg hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#121212] transition-colors"
+                  aria-label="GitHub"
+                >
+                  <Github className="w-4 h-4" />
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  aria-label="SmallCloud GitHub"
+                  title="SmallCloud GitHub"
+                  className="p-2 rounded-lg text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#121212] transition-colors cursor-default"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Github className="w-4 h-4" />
+                </button>
+              )}
+
+              {COMPANY_SOCIALS.twitter ? (
+                <a
+                  href={COMPANY_SOCIALS.twitter}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-2 rounded-lg hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#121212] transition-colors"
+                  aria-label="X (formerly Twitter)"
+                >
+                  <Twitter className="w-4 h-4" />
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  aria-label="SmallCloud X"
+                  title="SmallCloud X"
+                  className="p-2 rounded-lg text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#121212] transition-colors cursor-default"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Twitter className="w-4 h-4" />
+                </button>
+              )}
+
+              {COMPANY_SOCIALS.linkedin ? (
+                <a
+                  href={COMPANY_SOCIALS.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-2 rounded-lg hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#121212] transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  aria-label="SmallCloud LinkedIn"
+                  title="SmallCloud LinkedIn"
+                  className="p-2 rounded-lg text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#121212] transition-colors cursor-default"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Linkedin className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
 
