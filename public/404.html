@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmallCloud</title>
+    <script>
+      // Single Page App redirect for GitHub Pages and static hosting
+      // Preserves route and hash, redirecting to /?p=... which RouterProvider handles cleanly.
+      var path = window.location.pathname;
+      var hash = window.location.hash;
+
+      var match = path.match(/(?:.*)(\/(?:docs|cli|guide)\/?)$/i);
+      var targetRoute = match ? match[1] : path;
+      var base = path.replace(/(?:\/(?:docs|cli|guide)\/?)$/i, '');
+      var redirectUrl = (base || '') + '/?p=' + encodeURIComponent(targetRoute) + (hash ? hash : '');
+      window.location.replace(redirectUrl);
+    </script>
+  </head>
+  <body>
+    <p style="font-family: sans-serif; text-align: center; margin-top: 20vh; color: #666;">
+      Loading SmallCloud...
+    </p>
+  </body>
+</html>

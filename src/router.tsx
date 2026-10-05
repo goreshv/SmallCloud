@@ -1,8 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 /**
- * Minimal client-side router (pathname + hash) so the site can have real pages
- * like /docs and /cli without pulling in an extra dependency.
+ * Universal client-side router supporting HTML5 pushState, hash routing,
+ * query param fallback, subpath repositories (e.g. GitHub Pages), and smooth hash scrolling.
  */
 
 interface RouterContextValue {
@@ -15,43 +15,131 @@ const RouterContext = createContext<RouterContextValue>({
   navigate: () => {},
 });
 
+/**
+ * Normalizes any route input (pathname, hash, or query param) into a canonical route:
+ * - '/docs', '/docs/', '#/docs', '?p=/docs', '/repo/docs' -> '/docs'
+ * - '/cli', '/cli/', '#/cli', '?p=/cli', '/repo/cli' -> '/cli'
+ * - everything else -> '/'
+ */
+export const resolveCurrentPath = (): string => {
+  if (typeof window === 'undefined') return '/';
+
+  // 1. Check if route is in hash (e.g. #/docs, #/cli, #/docs#env)
+  const hash = window.location.hash || '';
+  if (hash.startsWith('#/')) {
+    const routePart = hash.slice(1).split('#')[0].replace(/\/+$/, '');
+    if (routePart === '/docs' || routePart === '/guide') return '/docs';
+    if (routePart === '/cli') return '/cli';
+    return routePart || '/';
+  }
+
+  // 2. Check query param fallback (e.g. ?p=/docs or ?route=/cli from 404 redirect)
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const queryRoute = params.get('p') || params.get('route');
+    if (queryRoute) {
+      const cleanQuery = queryRoute.replace(/\/+$/, '');
+      if (cleanQuery === '/docs' || cleanQuery === '/guide') return '/docs';
+      if (cleanQuery === '/cli') return '/cli';
+      return cleanQuery || '/';
+    }
+  } catch {
+    // Ignore search param parsing failure
+  }
+
+  // 3. Check pathname
+  const pathname = window.location.pathname || '/';
+
+  // Match /docs, /docs/, or subpath /repo-name/docs
+  if (/(^|\/)(docs|guide)\/?$/i.test(pathname)) {
+    return '/docs';
+  }
+  // Match /cli, /cli/, or subpath /repo-name/cli
+  if (/(^|\/)cli\/?$/i.test(pathname)) {
+    return '/cli';
+  }
+
+  return '/';
+};
+
 const scrollToHash = (hash: string, attempt = 0) => {
-  if (!hash) {
-    window.scrollTo({ top: 0 });
+  if (!hash || hash.startsWith('#/')) {
     return;
   }
-  const el = document.getElementById(decodeURIComponent(hash.slice(1)));
+  const cleanId = decodeURIComponent(hash.slice(1));
+  const el = document.getElementById(cleanId);
   if (el) {
-    const top = el.getBoundingClientRect().top + window.scrollY - 88; // clear the sticky navbar
+    const top = el.getBoundingClientRect().top + window.scrollY - 88; // clear sticky navbar
     window.scrollTo({ top, behavior: 'smooth' });
-  } else if (attempt < 20) {
-    // Target may not be rendered yet (page just switched) — retry briefly.
-    window.setTimeout(() => scrollToHash(hash, attempt + 1), 50);
+  } else if (attempt < 25) {
+    // Target element may not be rendered yet — retry briefly.
+    window.setTimeout(() => scrollToHash(hash, attempt + 1), 40);
   }
 };
 
 export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [path, setPath] = useState(window.location.pathname);
+  const [path, setPath] = useState(resolveCurrentPath);
 
   useEffect(() => {
-    const onPopState = () => {
-      setPath(window.location.pathname);
-      scrollToHash(window.location.hash);
+    const handleLocationChange = () => {
+      setPath(resolveCurrentPath());
+      const hash = window.location.hash;
+      if (hash && !hash.startsWith('#/')) {
+        scrollToHash(hash);
+      }
     };
-    window.addEventListener('popstate', onPopState);
-    // Honour a hash on first load (e.g. /cli#deploy).
-    if (window.location.hash) scrollToHash(window.location.hash);
-    return () => window.removeEventListener('popstate', onPopState);
+
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+
+    // Initial load: clean query fallback if present (?p=/docs)
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('p') || params.has('route')) {
+      const canonical = resolveCurrentPath();
+      try {
+        window.history.replaceState({}, '', canonical + window.location.hash);
+      } catch {
+        // Fallback gracefully
+      }
+    }
+
+    // Scroll to section hash if provided (e.g. #install, #domains)
+    if (window.location.hash && !window.location.hash.startsWith('#/')) {
+      scrollToHash(window.location.hash);
+    }
+
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
   }, []);
 
   const navigate = useCallback((to: string) => {
+    // If it's an anchor within current page (e.g. #how-it-works or #pricing)
+    if (to.startsWith('#') && !to.startsWith('#/')) {
+      scrollToHash(to);
+      return;
+    }
+
     const url = new URL(to, window.location.origin);
     const target = url.pathname + url.hash;
-    if (target !== window.location.pathname + window.location.hash) {
-      window.history.pushState({}, '', target);
+
+    if (window.location.pathname + window.location.hash !== target) {
+      try {
+        window.history.pushState({}, '', target);
+      } catch {
+        // Fallback to hash routing if pushState blocked
+        window.location.hash = '#' + to;
+      }
     }
-    setPath(url.pathname);
-    scrollToHash(url.hash);
+
+    setPath(resolveCurrentPath());
+
+    if (url.hash && !url.hash.startsWith('#/')) {
+      scrollToHash(url.hash);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, []);
 
   return <RouterContext.Provider value={{ path, navigate }}>{children}</RouterContext.Provider>;
@@ -63,7 +151,7 @@ interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
 }
 
-/** Anchor that navigates client-side but keeps a real href (cmd/ctrl-click still opens a new tab). */
+/** Anchor that navigates client-side but preserves cmd/ctrl-click */
 export const Link: React.FC<LinkProps> = ({ to, onClick, children, ...rest }) => {
   const { navigate } = useRouter();
   return (
